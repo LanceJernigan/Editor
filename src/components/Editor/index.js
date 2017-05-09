@@ -16,19 +16,30 @@ const styles = {
         minHeight: '100px',
         border: 'none',
         height: 'auto',
+        outline: 'none',
+        resize: 'none',
     },
     text: {
         width: '100%',
+        outline: 'none'
     }
 };
 
 const Editor = ({ modules, actions }) => (
-    <div style={ styles.editor }>
-        {/*{ modules.map(( module, key ) => module.focus ?
-            <textarea style={ styles.textarea } key>{ module.value }</textarea> :
-            <p onClick={() => actions.module.focus(module.id)} style={ styles.text } key>{ module.value }</p>
-        )}*/}
-        {modules.map(( module, key ) => <p onClick={() => actions.module.focus(module.id)} onKeyDown={e => actions.module.update({id: module.id, value: e.currentTarget.innerHTML})} contentEditable style={ styles.text } key>{ module.value }</p> )}
+    <div style={styles.editor}>
+        {modules.map((module, key) => (
+            <textarea
+                onChange={e => actions.module.update({
+                    id: module.id,
+                    value: e.currentTarget.value,
+                    height: e.currentTarget.scrollHeight
+                })}
+                style={{...styles.textarea, height: `${module.height}px`}}
+                value={module.value}
+                key
+            >
+            </textarea>
+        ))}
     </div>
 );
 
@@ -47,7 +58,7 @@ Editor.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    modules: state.editor
+    modules: state.editor.modules
 })
 
 const mapDispatchToProps = dispatch => ({
