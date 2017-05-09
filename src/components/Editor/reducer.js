@@ -14,6 +14,10 @@ const module = (state = {}, action) => {
                 ...state,
                 focus: state.id === action.payload
             }
+        case 'UPDATE_MODULE':
+            return state.id === action.payload.id ?
+                {...state, ...action.payload} :
+                state
     }
 }
 
@@ -22,6 +26,12 @@ const editor = (state = defaultEditorState, action) => {
         case 'FOCUS_MODULE':
             return state.map( m => 
                 module(m, action)
+            )
+        case 'UPDATE_MODULE':
+            return state.map( m =>
+                action.payload.hasOwnProperty('id') ?
+                module(m, action) :
+                m
             )
         default:
             return state

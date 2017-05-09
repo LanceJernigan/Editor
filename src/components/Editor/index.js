@@ -24,10 +24,11 @@ const styles = {
 
 const Editor = ({ modules, actions }) => (
     <div style={ styles.editor }>
-        { modules.map(( module, key ) => module.focus ?
+        {/*{ modules.map(( module, key ) => module.focus ?
             <textarea style={ styles.textarea } key>{ module.value }</textarea> :
-            <p onClick={() => actions.module.onClick(module.id)} style={ styles.text } key>{ module.value }</p>
-        )}
+            <p onClick={() => actions.module.focus(module.id)} style={ styles.text } key>{ module.value }</p>
+        )}*/}
+        {modules.map(( module, key ) => <p onClick={() => actions.module.focus(module.id)} onKeyDown={e => actions.module.update({id: module.id, value: e.currentTarget.innerHTML})} contentEditable style={ styles.text } key>{ module.value }</p> )}
     </div>
 );
 
@@ -37,6 +38,12 @@ Editor.propTypes = {
         value: PropTypes.string,
         focus: PropTypes.bool,
     })),
+    actions: PropTypes.shape({
+        module: PropTypes.shape({
+            focus: PropTypes.func,
+            update: PropTypes.func
+        })
+    })
 }
 
 const mapStateToProps = state => ({
@@ -46,7 +53,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     actions: {
         module: {
-            onClick: id => dispatch(actions.focusModule(id))
+            focus: id => dispatch(actions.focusModule(id)),
+            update: payload => dispatch(actions.updateModule(payload))
         }
     }
 })
