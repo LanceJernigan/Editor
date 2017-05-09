@@ -3,14 +3,20 @@ const focusModule = id => ({
     payload: id
 })
 
-const updateModule = payload => (console.log(payload) || {
+const addModule = payload => ({
+    type: 'ADD_MODULE',
+    payload: payload,
+})
+
+const updateModule = payload => ({
     type: 'UPDATE_MODULE',
     payload: payload
 })
 
 const actions = {
     focusModule,
-    updateModule
+    updateModule,
+    addModule
 }
 
 export default actions

@@ -6,18 +6,21 @@ import actions from './actions.js';
 const styles = {
     editor: {
         width: '98%',
-        maxWidth: '500px',
+        maxWidth: '750px',
         margin: 'auto',
         padding: '15px'
     },
     textarea: {
         width: '100%',
         maxWidth: '100%',
-        minHeight: '100px',
+        fontWeight: '300',
+        lineHeight: '2rem',
         border: 'none',
-        height: 'auto',
         outline: 'none',
         resize: 'none',
+        background: '#f4f5f7',
+        padding: '1.5rem',
+        fontSize: '1.5rem'
     },
     text: {
         width: '100%',
@@ -25,23 +28,31 @@ const styles = {
     }
 };
 
-const Editor = ({ modules, actions }) => (
-    <div style={styles.editor}>
-        {modules.map((module, key) => (
-            <textarea
-                onChange={e => actions.module.update({
-                    id: module.id,
-                    value: e.currentTarget.value,
-                    height: e.currentTarget.scrollHeight
-                })}
-                style={{...styles.textarea, height: `${module.height}px`}}
-                value={module.value}
-                key
-            >
-            </textarea>
-        ))}
-    </div>
-);
+const Editor = ({ modules, actions }) => {
+    return (
+        <div style={styles.editor}>
+            {modules.map((module, key) => (
+                <textarea
+                    ref={el => el && el.scrollHeight !== module.height ?
+                        actions.module.update({
+                            id: module.id,
+                            height: el.scrollHeight
+                        }) :
+                        el
+                    }
+                    onChange={e => actions.module.update({
+                        id: module.id,
+                        value: e.currentTarget.value,
+                        height: 0
+                    })}
+                    style={{ ...styles.textarea, height: `${module.height}px` }}
+                    value={module.value}
+                    key={key}
+                ></textarea>
+            ))}
+        </div>
+    )
+};
 
 Editor.propTypes = {
     modules: PropTypes.arrayOf(PropTypes.shape({
