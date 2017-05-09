@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import actions from './actions.js';
+import { addModule, updateModule } from './actions.js';
 
 const styles = {
     editor: {
@@ -33,6 +33,7 @@ const Editor = ({ modules, actions }) => {
         <div style={styles.editor}>
             {modules.map((module, key) => (
                 <textarea
+                    rows={1}
                     ref={el => el && el.scrollHeight !== module.height ?
                         actions.module.update({
                             id: module.id,
@@ -50,6 +51,11 @@ const Editor = ({ modules, actions }) => {
                     key={key}
                 ></textarea>
             ))}
+            <p
+                onClick={() => actions.module.add({
+                    value: ''
+                })}
+            >Add Text Module</p>
         </div>
     )
 };
@@ -75,8 +81,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     actions: {
         module: {
-            focus: id => dispatch(actions.focusModule(id)),
-            update: payload => dispatch(actions.updateModule(payload))
+            add: payload => dispatch(addModule(payload)),
+            update: payload => dispatch(updateModule(payload))
         }
     }
 })
