@@ -5,17 +5,17 @@ export const focusModule = id => ({
 
 export const addModule = payload => ({
     type: 'ADD_MODULE',
-    payload: payload,
+    payload,
 })
 
 export const deleteModule = payload => ({
     type: 'DELETE_MODULE',
-    payload: payload,
+    payload,
 })
 
 export const updateModule = payload => ({
     type: 'UPDATE_MODULE',
-    payload: payload
+    payload
 })
 
 export const actions = {

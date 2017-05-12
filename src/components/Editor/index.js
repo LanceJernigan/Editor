@@ -28,52 +28,50 @@ const styles = {
     }
 };
 
-const Editor = ({ modules, actions }) => {
-    return (
-        <div style={styles.editor}>
-            {modules.map((module, key) => (
-                <textarea
-                    rows={1}
-                    ref={el => 
-                        el && el.scrollHeight !== module.height ?
-                            actions.module.update({
-                                id: module.id,
-                                height: el.scrollHeight,
-                            }) :
-                            el
-                    }
-                    onChange={e =>
-                        e.currentTarget.value ?
-                            actions.module.update({
-                                id: module.id,
-                                value: e.currentTarget.value,
-                                height: 0
-                            }) :
+const Editor = ({ modules, actions }) => (
+    <div style={styles.editor}>
+        {modules.map((module, key) => (
+            <textarea
+                rows={1}
+                ref={el =>
+                    el && el.scrollHeight !== module.height ?
+                        actions.module.update({
+                            id: module.id,
+                            height: el.scrollHeight,
+                        }) :
+                        el
+                }
+                onChange={e =>
+                    e.currentTarget.value ?
+                        actions.module.update({
+                            id: module.id,
+                            value: e.currentTarget.value,
+                            height: 0
+                        }) :
+                        actions.module.delete(module)
+                }
+                onKeyDown={e => {
+                    if (e.which === 8) {
+                        if (!e.currentTarget.value) {
+                            actions.module.update(Object.assign(modules[key - 1], { focus: true }))
                             actions.module.delete(module)
-                    }
-                    onKeyDown={e => {
-                        if (e.which === 8) {
-                            if (!e.currentTarget.value) {
-                                actions.module.update(Object.assign(modules[key - 1], {focus: true}))
-                                actions.module.delete(module)
-                            }
                         }
-                    }}
-                    style={{ ...styles.textarea, height: `${module.height}px` }}
-                    value={module.value}
-                    autoFocus={module.focus ? 'true' : 'false'}
-                    key={key}
-                ></textarea>
-            ))}
-            <p
-                onClick={() => actions.module.add({
-                    value: '',
-                    focus: true
-                })}
-            >Add Text Module</p>
-        </div>
-    )
-};
+                    }
+                }}
+                style={{ ...styles.textarea, height: `${module.height}px` }}
+                value={module.value}
+                autoFocus={module.focus ? 'true' : 'false'}
+                key={key}
+            ></textarea>
+        ))}
+        <p
+            onClick={() => actions.module.add({
+                value: '',
+                focus: true
+            })}
+        >Add Text Module</p>
+    </div>
+)
 
 Editor.propTypes = {
     modules: PropTypes.arrayOf(PropTypes.shape({
