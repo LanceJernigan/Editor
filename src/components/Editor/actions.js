@@ -1,10 +1,26 @@
-const focusModule = id => ({
+export const focusModule = id => ({
     type: 'FOCUS_MODULE',
     payload: id
 })
 
-const actions = {
-    focusModule
-}
+export const addModule = payload => ({
+    type: 'ADD_MODULE',
+    payload: payload,
+})
 
-export default actions
+export const deleteModule = payload => ({
+    type: 'DELETE_MODULE',
+    payload: payload,
+})
+
+export const updateModule = payload => ({
+    type: 'UPDATE_MODULE',
+    payload: payload
+})
+
+export const actions = {
+    focusModule,
+    updateModule,
+    addModule,
+    deleteModule
+}
