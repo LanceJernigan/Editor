@@ -24,11 +24,26 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: "babel-loader",
                 options: {
-                    presets: [
-                        'env',
-                        'es2015',
-                        'react'
+                    "presets": [
+                        [
+                            "env",
+                            {
+                                "targets": {
+                                    "browsers": [
+                                        "> 1%",
+                                        "last 2 versions"
+                                    ],
+                                },
+                                "loose": true,
+                                "useBuiltIns": true,
+                            }
+                        ],
+                        "react"
                     ],
+                    "plugins": [
+                        "transform-object-rest-spread",
+                        "transform-class-properties"
+                    ]
                 },
             },
         ],
