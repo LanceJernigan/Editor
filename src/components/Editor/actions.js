@@ -8,6 +8,11 @@ export const addModule = payload => ({
     payload: payload,
 })
 
+export const deleteModule = payload => ({
+    type: 'DELETE_MODULE',
+    payload: payload,
+})
+
 export const updateModule = payload => ({
     type: 'UPDATE_MODULE',
     payload: payload
@@ -16,5 +21,6 @@ export const updateModule = payload => ({
 export const actions = {
     focusModule,
     updateModule,
-    addModule
+    addModule,
+    deleteModule
 }
