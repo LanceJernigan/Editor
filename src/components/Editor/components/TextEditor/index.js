@@ -1,28 +1,6 @@
 import React from 'react';
 
-const styles = {
-    editor: {
-        width: '98%',
-        maxWidth: '750px',
-        margin: 'auto',
-        padding: '15px'
-    },
-    textarea: {
-        width: '100%',
-        maxWidth: '100%',
-        fontWeight: '300',
-        lineHeight: '2rem',
-        border: 'none',
-        outline: 'none',
-        resize: 'none',
-        padding: '1.5rem',
-        fontSize: '1.5rem'
-    },
-    text: {
-        width: '100%',
-        outline: 'none'
-    }
-};
+import styles from './style.css'
 
 const TextEditor = ({ actions, height, id, value, focus, index }) => (
     <textarea
@@ -58,7 +36,8 @@ const TextEditor = ({ actions, height, id, value, focus, index }) => (
             }
         }}
         onFocus={ e => e.currentTarget.selectionStart = e.currentTarget.selectionEnd = e.currentTarget.value.length}
-        style={{ ...styles.textarea, height: `${height}px` }}
+        className={styles.textModule}
+        style={{height: `${height}px`}}
         value={value}
     ></textarea>
 )

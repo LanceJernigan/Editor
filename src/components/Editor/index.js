@@ -5,26 +5,22 @@ import { addModule, updateModule, deleteModule } from './actions.js';
 
 import TextEditor from './components/TextEditor/';
 
-const styles = {
-    editor: {
-        width: '98%',
-        maxWidth: '750px',
-        margin: 'auto',
-        padding: '15px'
-    }
-};
+import styles from './style.css'
 
 const Editor = ({ modules, actions }) => (
-    <div style={styles.editor}>
+    <div className={styles.editor}>
         {modules.map((module, key) => (
             <TextEditor actions={actions.module} {...module} index={key} key={key} />
         ))}
-        <p
+        <div
+            className={styles.addModule}
             onClick={() => actions.module.add({
                 value: '',
                 focus: true
             })}
-        >Add Text Module</p>
+        >
+            <p>Add Module</p>
+        </div>
     </div>
 )
 
