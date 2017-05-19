@@ -21,27 +21,32 @@ const module = (state = {}, action) => {
                 focus: state.id === action.payload
             }
         case 'UPDATE_MODULE':
-
             return {
                 ...state,
                 ...action.payload,
             }
         case 'DELETE_MODULE':
-            return state.id !== action.payload.id
+            return !(parseInt(state.id, 10) === parseInt(action.payload.id, 10))
     }
 }
 
 const editor = (state = defaultEditorState, action) => {
+    const {
+        index
+    } = action.payload || { index: null }
+
     switch (action.type) {
         case 'FOCUS_MODULE':
-            return state.modules.map(m =>
-                module(m, action)
-            )
+            return state.modules.map((m, i) => (
+                Object.assign(m, {
+                        focus: index === i
+                    })
+            ))
         case 'UPDATE_MODULE':
             return {
                 ...state,
-                modules: state.modules.reduce((mods, m) => {
-                    mods.push(action.payload.hasOwnProperty('id') && m.id === action.payload.id ?
+                modules: state.modules.reduce((mods, m, i) => {
+                    mods.push(index === i ?
                         module(m, action) :
                         m
                     )
@@ -60,11 +65,15 @@ const editor = (state = defaultEditorState, action) => {
                 ]
             }
         case 'DELETE_MODULE':
+            let modules = [...state.modules]
+            modules.splice(index, 1)
+            modules[index - 1] = {
+                ...modules[index - 1],
+                focus: true
+            }
             return {
                 ...state,
-                modules: state.modules.filter(m =>
-                    module(m, action)
-                )
+                modules
             }
         default:
             return state
