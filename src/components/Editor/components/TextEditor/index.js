@@ -6,26 +6,28 @@ const TextEditor = ({ actions, height, id, value, focus, index }) => (
     <textarea
         rows={1}
         ref={el => {
-            el && el.scrollHeight !== height ?
-                (actions.update({
+            el && el.scrollHeight !== height
+                ? (actions.update({
                     id,
                     index,
                     height: el.scrollHeight,
-                })) :
-                el
+                }))
+                : el
 
-            focus && el
-                ? el.focus()
-                : null
+            if (focus && el) {
+                el.focus()
+                actions.update({
+                    index,
+                    focus: false
+                })
+            }
         }}
         onChange={e =>
-            e.currentTarget.value ?
-                actions.update({
+            actions.update({
                     index,
                     value: e.currentTarget.value,
                     height: 0
-                }) :
-                actions.delete({ index })
+                })
         }
         onKeyDown={e => {
             if (e.which === 8) {
@@ -37,7 +39,10 @@ const TextEditor = ({ actions, height, id, value, focus, index }) => (
         }}
         onFocus={ e => e.currentTarget.selectionStart = e.currentTarget.selectionEnd = e.currentTarget.value.length}
         className={styles.textModule}
-        style={{height: `${height}px`}}
+        style={{
+            height: `${height}px`,
+            borderLeft: value.length ? 'none' : 'solid 3px rgba(0, 0, 0, .2)'
+        }}
         value={value}
     ></textarea>
 )

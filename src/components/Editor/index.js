@@ -19,7 +19,7 @@ const Editor = ({ modules, actions }) => (
                 focus: true
             })}
         >
-            <p>Add Module</p>
+            <p>Add Content</p>
         </div>
     </div>
 )
